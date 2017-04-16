@@ -8,10 +8,10 @@
           <div class="user-info">
             <el-dropdown trigger="click">
               <span class="el-dropdown-link">
-                {{ user.username }}<i class="el-icon-arrow-down el-icon--right"></i>
+                \{{ user.username }}<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown" class="db-dropdown">
-                <el-dropdown-item><i class="icon-exit el-icon--left"></i>{{ $t('common.logout') }}</el-dropdown-item>
+                <el-dropdown-item><i class="icon-exit el-icon--left"></i>\{{ $t('common.logout') }}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -26,13 +26,13 @@
             <el-menu :default-active="activeMenu" theme="dark" class="db-menu-bar" router>
               <template v-for="(route, index) in $router.options.routes[3].children">
                 <el-submenu v-if="!route.meta.hidden && roleShow(route)" :index="route.name">
-                  <template slot="title"><i :class="route.iconClass"></i>{{ generatei18n(route.name) }}</template>
+                  <template slot="title"><i :class="route.iconClass"></i>\{{ generatei18n(route.name) }}</template>
                   <template v-for="(cRoute, index) in route.children">
                     <el-menu-item
                       v-if="roleShow(cRoute)"
                       :index="cRoute.name"
                       :route="cRoute"
-                      :class="{'is-actived': cRoute.name === activeMenu}">{{ generatei18n(route.name, cRoute.name) }}</el-menu-item>
+                      :class="{'is-actived': cRoute.name === activeMenu}">\{{ generatei18n(route.name, cRoute.name) }}</el-menu-item>
                   </template>
                 </el-submenu>
               </template>
