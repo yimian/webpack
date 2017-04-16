@@ -1,15 +1,64 @@
-import Vue from 'vue'{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
-import Router from 'vue-router'{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
-import Hello from '@/components/Hello'{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import NotFound from '@/components/404';
+import Forbidden from '@/components/403';
+import Login from '@/views/auth/Login';
 
-Vue.use(Router){{#if_eq lintConfig "airbnb"}};{{/if_eq}}
+Vue.use(VueRouter);
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Hello',
-      component: Hello{{#if_eq lintConfig "airbnb"}},{{/if_eq}}
-    }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}
-  ]{{#if_eq lintConfig "airbnb"}},{{/if_eq}}
-}){{#if_eq lintConfig "airbnb"}};{{/if_eq}}
+const root = Vue.component('root', {
+  template: '<router-view></router-view>',
+});
+
+const routes = [
+  {
+    path: '/login',
+    component: Login,
+    name: 'login',
+    meta: {
+      hidden: true,
+    },
+  },
+  {
+    path: '/404',
+    component: NotFound,
+    name: '404',
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/403',
+    component: Forbidden,
+    name: '403',
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/',
+    component: root,
+    children: [],
+  },
+  {
+    path: '*',
+    redirect: { path: '/404' },
+  },
+];
+
+const menuCount = routes.length;
+routes[menuCount - 2].children.forEach((route) => {
+  if (route.children) {
+    /* eslint-disable no-param-reassign */
+    if (!route.meta) route.meta = {};
+    /* eslint-disable no-param-reassign */
+    route.meta.children = route.children;
+  }
+});
+
+const router = new VueRouter({
+  mode: 'history',
+  routes,
+});
+
+export default router;
